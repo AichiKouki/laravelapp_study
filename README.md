@@ -1,1 +1,2 @@
 # laravelapp_study
+laravel勉強リポジトリ。参考書進めて勉強終わったらその日にプッシュ
