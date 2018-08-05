@@ -1,4 +1,5 @@
 {{--コンポーネントを作成。一部を切り離して作成して、組み込むため--}}
+{{--@eachを使ってみる--}}
 <html>
 <head>
 <title>@yield('title')</title> {{--@yieldを用意して、タイトルを表示するようにする--}}
@@ -23,8 +24,7 @@
 </style>
 </head>
 <body>
-<div class="message">
-	<p class="msg_title">{{$msg_title}}</p>{{--index.bladeからslotで値が渡される--}}
-	<p class="msg_content">{{$msg_content}}</p>
+{{--nameとmailをまとめた配列データを、更に配列としてまとめたものを用意している--}}
+<li>{{$item['name']}} 「{{$item['mail']}}」</li>
 </body>
 </html> 
