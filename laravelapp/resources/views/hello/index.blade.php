@@ -9,25 +9,10 @@
 @endsection
 
 @section('content')
-	<p>ここが本文のコンテンツです</p>
-	<p>必要なだけ記述できます</p>
-{{--コンポーネントを組み込む--}}
-	@component('components.message') {{--componentsフォルダのmessageブレード--}}
-		@slot('msg_title'){{--コンポーネントを利用するにはslotで値を渡す必要があるから--}}
-		CAUTION！
-		@endslot
-		
-		@slot('msg_content')
-		これはメッセージの表示です。
-		@endslot
-	@endcomponent
-
-{{--サブビュー。切り離したものをそのまま表示--}}
-@include('components.message',['msg_title'=>'OK','msg_content'=>'サブメニューです'])
-
-{{--@each。あらかじめ用意した配列やコレクションから順に値を取り出して指定のテンプレートにはめ込んで出力する--}}
-	<p>ここが本文のコンテンツです</p>
-	@each('components.item',$data,'item'){{--テンプレート名、配列、変数名--}}
+	<p>ここが本文のコンテンツです</p>	
+{{--ビューコンポーザを利用する--}}
+<p>Controller value<br>'message' = {{$message}}</p>{{--コントローラから受け取る--}}
+<p>ViewComposer value<br>'view_message' = {{$view_message}}</p>{{--ビューコンポーザ--}}
 @endsection
 
 @section('footer')
