@@ -3,7 +3,7 @@
 namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-//
+//サービスプロパイダを作成するためにServiceProviderクラスを継承
 class HelloServiceProvider extends ServiceProvider
 {
     /**
@@ -16,7 +16,7 @@ class HelloServiceProvider extends ServiceProvider
         //ここでは、helloフォルダにあるindexブレードにview_messageという値を設定する処理
         //View::composerというメソッドは、ビューコンポーザーを設定するためのもの
         View::composer(//第一引数はビューの指定。第二引数は関数またはクラス
-        'hello.index','App\Http\Composers\HelloComposer'
+        'hello.index','App\Http\Composers\HelloComposer' 
         );
     }
 

@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+//ミドルウェアを使うために追記
+use App\Http\Middleware\HelloMiddleware;
+
 //トップページにアクセスしたときの処理について記述したもの
 Route::get('/', function () { //Route::get(アドレス,関数など)
     return view('welcome'); //*1
@@ -31,10 +34,14 @@ Route::get('request_response','RequestResponseController@index');
 
 //フォームを利用する
 //同じアドレスでも、GETやPOSTのようにアクセスするメソッドの種類が違えば両方使える
-Route::get('hello','HelloController@index');//helloにアクセスした時にindexアクションを処理
+//Route::get('hello','HelloController@index');//helloにアクセスした時にindexアクションを処理
 //POST送信は、「Route::post」というメソッドで設定します
 //Route::post('hello','HelloController@post');//helloにアクセスした時にpostアクションも処理
 
+//ミドルウェアを利用する場合は、Route::getの後にメソッドチェーンを使って「middleware」メソッドを追加します。引数には、利用するミドルウェアクラスを指定します。
+//middlewareメソッドはそのままメソッドチェーンとして連続して記述することができます。ふk数のメソッドチェンを利用したい場合は、
+//Route::get()->middleware()->middleware〜〜
+Route::get('hello','HelloController@index')->middleware(HelloMiddleware::class);
 /*
 *1
 そのアドレスにアクセスした際に表示される内容。

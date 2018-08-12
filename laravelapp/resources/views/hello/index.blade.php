@@ -10,9 +10,8 @@
 
 @section('content')
 	<p>ここが本文のコンテンツです</p>	
-{{--ビューコンポーザを利用する--}}
-<p>Controller value<br>'message' = {{$message}}</p>{{--コントローラから受け取る--}}
-<p>ViewComposer value<br>'view_message' = {{$view_message}}</p>{{--ビューコンポーザ--}}
+	<p>これは、<middleware>google.com</middleware>へのリンクです</p>
+	<p>これは、<middleware>yahoo.com</middleware>へのリンクです</p>
 @endsection
 
 @section('footer')
