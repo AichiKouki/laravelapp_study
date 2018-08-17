@@ -41,7 +41,10 @@ Route::get('request_response','RequestResponseController@index');
 //ミドルウェアを利用する場合は、Route::getの後にメソッドチェーンを使って「middleware」メソッドを追加します。引数には、利用するミドルウェアクラスを指定します。
 //middlewareメソッドはそのままメソッドチェーンとして連続して記述することができます。ふk数のメソッドチェンを利用したい場合は、
 //Route::get()->middleware()->middleware〜〜
-Route::get('hello','HelloController@index')->middleware(HelloMiddleware::class);
+//Route::get('hello','HelloController@index')->middleware(HelloMiddleware::class);
+//Route::get('hello','HelloController@index')->middleware('hello');
+Route::get('hello','HelloController@index');
+Route::post('hello','HelloController@post');
 /*
 *1
 そのアドレスにアクセスした際に表示される内容。

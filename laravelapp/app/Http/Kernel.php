@@ -13,6 +13,7 @@ class Kernel extends HttpKernel
      *
      * @var array
      */
+     //グローバルミドルウェアの登録(全てのアクセスで自動的にミドルウェアを実行するため)
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
@@ -26,6 +27,7 @@ class Kernel extends HttpKernel
      *
      * @var array
      */
+     //複数のミドルウェアを一つにまとめて扱えるようにして管理をラクにできる、ミドルウェアのグループ登録
     protected $middlewareGroups = [
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
@@ -40,6 +42,10 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+        ],
+        
+        'hello'=>[
+        \App\Http\Middleware\HelloMiddleware::class,
         ],
     ];
 
