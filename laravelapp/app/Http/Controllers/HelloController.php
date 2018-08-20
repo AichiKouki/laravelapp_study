@@ -6,21 +6,49 @@ use Illuminate\Http\Request;//デフォルトで用意されていた
 
 use App\Http\Requests\HelloRequest;//フォームリクエスト機能を使うため
 
+use Validator;//バリデータを作成するため
+
 class HelloController extends Controller
 {
 //コントローラからBladeテンプレートを使う
-    public function index(Request $request){//helloにアクセスした時のアクション
-    	//resources/views/hello/index.phpにある。このテンプレートに値を渡してレンダリング
-    	//['msg'=>'メッセージ']
-    	//$msg   ←テンプレートでは上記のように連想配列のキーと同じ名前で受け取れる
-    	
-    	//viewメソッドの第一引数は、フォルダ名.ファイル名。第二引数はtemplateに渡す値となる連想配列
-    	return view('hello.index',['msg'=>'フォームを入力']);
+    /*
+    *resources/views/hello/index.phpにある。このテンプレートに値を渡してレンダリング
+    *['msg'=>'メッセージ']
+    *$msg   ←テンプレートでは上記のように連想配列のキーと同じ名前で受け取れる	
+    *viewメソッドの第一引数は、フォルダ名.ファイル名。第二引数はtemplateに渡す値となる連想配列
+    */
+    public function index(Request $request){//helloにアクセスした時のアクション  
+    //Requestのqueryメソッドは送信されたクエリー文字列を配列の形にまとめたものを返す,  	
+    $validator=Validator::make($request->query() , [
+        'id'=>'required',
+        'pass'=>'required',
+    ]);
+    if($validator->fails()){
+        $msg='クエリーに問題があります';
+    }else{
+        $msg='ID/PASSを受け付けました。フォームを入力してください';
+    }
+    	return view('hello.index',['msg'=>$msg,]);
     }    
     
     //ここのコントローラーに来る前に、フォームの内部でフォームの内容をチェックしてある。
     //だから、HelloRequestに設定してる。
-    public function post(HelloRequest $request){//RequestではなくHelloRequestを使う
+    public function post(Request $request){//RequestではなくHelloRequestを使う
+    
+    //バリデータを作成する
+    //makeというメソッドを使ってインスタンスを作成する必要がある
+    //make(値の配列,ルールの配列)
+    $validator = Validator::make($request->all() , [
+        'name'=>'required',
+        'mail'=>'email',
+        'age'=>'numeric|between:0,150',
+    ]);
+    //Validatorのインスタンスを作成したので、後はエラーが起きたかチェックして処理する
+    if($validator->fails()){//failsはValidatorクラスにあるメソッドで、バリデーションチェックに失敗したかどうかを調べる
+        return redirect('/hello')
+        ->withErrors($validator)//Validatorで発生したエラーメッセージをリダイレクト先に引き継ぐ
+        ->withInput();//送信されたフォームの値をそのまま引き継ぎます
+    }
         return view('hello.index',['msg'=>'正しく入力されました']);
     }
 }
