@@ -36,13 +36,20 @@ class HelloController extends Controller
     public function post(Request $request){//RequestではなくHelloRequestを使う
     
     //バリデータを作成する
+    $rules=[
+            'name'=>'required',//入力必須
+            'mail'=>'email',//メールアドレスの形式かどうか
+            'age'=>'numeric|between:0,150',//numericは数値かどうか、betweenは0〜150の間か
+    ];
+    $messages=[
+        'name.required'=>'名前は必ず入力してください',
+        'mail.email'=>'メールアドレスが必要です',
+        'age.numeric'=>'年齢を整数で記入してください',
+        'age.between'=>'年齢は0〜150の間で入力してください',
+    ];
     //makeというメソッドを使ってインスタンスを作成する必要がある
     //make(値の配列,ルールの配列)
-    $validator = Validator::make($request->all() , [
-        'name'=>'required',
-        'mail'=>'email',
-        'age'=>'numeric|between:0,150',
-    ]);
+    $validator = Validator::make($request->all(),$rules,$messages);
     //Validatorのインスタンスを作成したので、後はエラーが起きたかチェックして処理する
     if($validator->fails()){//failsはValidatorクラスにあるメソッドで、バリデーションチェックに失敗したかどうかを調べる
         return redirect('/hello')
