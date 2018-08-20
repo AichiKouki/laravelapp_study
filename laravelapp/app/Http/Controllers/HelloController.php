@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;//デフォルトで用意されていた
 
+use App\Http\Requests\HelloRequest;//フォームリクエスト機能を使うため
+
 class HelloController extends Controller
 {
 //コントローラからBladeテンプレートを使う
@@ -16,14 +18,9 @@ class HelloController extends Controller
     	return view('hello.index',['msg'=>'フォームを入力']);
     }    
     
-    public function post(Request $request){
-        $validate_rule=[
-        'name'=>'required',//requiredは、
-        'mail'=>'email',
-        'age'=>'numeric|between:0,150',//numericは値が数値であるか、betweedは0〜150であるか
-        ];
-        //バリデーション処理。それぞれ上記の条件に引っかかなければ、下のviewが実行される
-        $this->validate($request,$validate_rule);
+    //ここのコントローラーに来る前に、フォームの内部でフォームの内容をチェックしてある。
+    //だから、HelloRequestに設定してる。
+    public function post(HelloRequest $request){//RequestではなくHelloRequestを使う
         return view('hello.index',['msg'=>'正しく入力されました']);
     }
 }
