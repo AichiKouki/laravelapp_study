@@ -33,7 +33,7 @@ class HelloRequest extends FormRequest
             //これで、name、mail、ageの各フィールドにルールが適用されます
             'name'=>'required',//入力必須
             'mail'=>'email',//メールアドレスの形式かどうか
-            'age'=>'numeric|hello',//numericは数値かどうか、helloは新しく自分で作ったルール
+            'age'=>'numeric|hello|hello_extend',//numericは数値かどうか、helloは新しく自分で作ったルール
         ];
     }
     
@@ -49,6 +49,7 @@ class HelloRequest extends FormRequest
         'mail.email'=>'メールアドレスが必要です',
         'age.numeric'=>'年齢を整数で記入してください',
         'age.hello'=>'Hello! 入力は偶数のみ受け付けます',
+        'age.hello_extend'=>'1000より小さくしてちょーだい(extendメソッドで簡単にルール作成)'
         ];
     }
 }

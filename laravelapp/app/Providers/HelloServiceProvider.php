@@ -24,6 +24,11 @@ class HelloServiceProvider extends ServiceProvider
             //HelloValidatorクラスのインスタンスをreturnすることで、このクラスをバリデーションの処理をして設定できます
             return new HelloValidator($translator,$data,$rules,$messages);
         });
+        
+        //extendメソッドを使って、フォームだけカスタマイズしたい！みたいなちょっとしたものなら、もっと簡単にルールが作れる
+        $validator->extend('hello_extend',function($attribute,$value,$parameters,$validator){
+            return $value<1000;
+            });
     }
 
     /**
