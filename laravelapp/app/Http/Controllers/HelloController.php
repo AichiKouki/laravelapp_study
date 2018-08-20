@@ -39,17 +39,27 @@ class HelloController extends Controller
     $rules=[
             'name'=>'required',//入力必須
             'mail'=>'email',//メールアドレスの形式かどうか
-            'age'=>'numeric|between:0,150',//numericは数値かどうか、betweenは0〜150の間か
+            'age'=>'numeric',//numericは数値かどうか、betweenは0〜150の間か
     ];
     $messages=[
         'name.required'=>'名前は必ず入力してください',
         'mail.email'=>'メールアドレスが必要です',
         'age.numeric'=>'年齢を整数で記入してください',
-        'age.between'=>'年齢は0〜150の間で入力してください',
+        'age.min'=>'年齢は0以上で記入してください',
+        'age.max'=>'年齢は200歳以下で記入してください',
     ];
     //makeというメソッドを使ってインスタンスを作成する必要がある
     //make(値の配列,ルールの配列)
     $validator = Validator::make($request->all(),$rules,$messages);
+    //ageの値が整数だったら、ageに「min:0」つまり0より小さい値はだめというルールを追加
+    $validator->sometimes('age','min:0',function($input){
+        return !is_int($input->age);//falseなら処理されるので「!」をつけている
+        });
+    //ageの値が整数だったら、ageに「max:200」つまり200より大きい値はだめルールを追加
+    $validator->sometimes('age','max:200',function($input){
+        return !is_int($input->age);//falseなら処理されるので「!」をつけている
+        });
+    
     //Validatorのインスタンスを作成したので、後はエラーが起きたかチェックして処理する
     if($validator->fails()){//failsはValidatorクラスにあるメソッドで、バリデーションチェックに失敗したかどうかを調べる
         return redirect('/hello')
