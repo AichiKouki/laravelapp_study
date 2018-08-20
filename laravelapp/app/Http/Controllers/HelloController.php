@@ -18,54 +18,12 @@ class HelloController extends Controller
     *viewメソッドの第一引数は、フォルダ名.ファイル名。第二引数はtemplateに渡す値となる連想配列
     */
     public function index(Request $request){//helloにアクセスした時のアクション  
-    //Requestのqueryメソッドは送信されたクエリー文字列を配列の形にまとめたものを返す,  	
-    $validator=Validator::make($request->query() , [
-        'id'=>'required',
-        'pass'=>'required',
-    ]);
-    if($validator->fails()){
-        $msg='クエリーに問題があります';
-    }else{
-        $msg='ID/PASSを受け付けました。フォームを入力してください';
-    }
-    	return view('hello.index',['msg'=>$msg,]);
+    	return view('hello.index',['msg'=>'フォームを入力してください']);
     }    
     
     //ここのコントローラーに来る前に、フォームの内部でフォームの内容をチェックしてある。
     //だから、HelloRequestに設定してる。
-    public function post(Request $request){//RequestではなくHelloRequestを使う
-    
-    //バリデータを作成する
-    $rules=[
-            'name'=>'required',//入力必須
-            'mail'=>'email',//メールアドレスの形式かどうか
-            'age'=>'numeric',//numericは数値かどうか、betweenは0〜150の間か
-    ];
-    $messages=[
-        'name.required'=>'名前は必ず入力してください',
-        'mail.email'=>'メールアドレスが必要です',
-        'age.numeric'=>'年齢を整数で記入してください',
-        'age.min'=>'年齢は0以上で記入してください',
-        'age.max'=>'年齢は200歳以下で記入してください',
-    ];
-    //makeというメソッドを使ってインスタンスを作成する必要がある
-    //make(値の配列,ルールの配列)
-    $validator = Validator::make($request->all(),$rules,$messages);
-    //ageの値が整数だったら、ageに「min:0」つまり0より小さい値はだめというルールを追加
-    $validator->sometimes('age','min:0',function($input){
-        return !is_int($input->age);//falseなら処理されるので「!」をつけている
-        });
-    //ageの値が整数だったら、ageに「max:200」つまり200より大きい値はだめルールを追加
-    $validator->sometimes('age','max:200',function($input){
-        return !is_int($input->age);//falseなら処理されるので「!」をつけている
-        });
-    
-    //Validatorのインスタンスを作成したので、後はエラーが起きたかチェックして処理する
-    if($validator->fails()){//failsはValidatorクラスにあるメソッドで、バリデーションチェックに失敗したかどうかを調べる
-        return redirect('/hello')
-        ->withErrors($validator)//Validatorで発生したエラーメッセージをリダイレクト先に引き継ぐ
-        ->withInput();//送信されたフォームの値をそのまま引き継ぎます
-    }
+    public function post(HelloRequest $request){//RequestではなくHelloRequestを使う
         return view('hello.index',['msg'=>'正しく入力されました']);
     }
 }

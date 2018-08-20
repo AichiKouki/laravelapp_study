@@ -33,7 +33,7 @@ class HelloRequest extends FormRequest
             //これで、name、mail、ageの各フィールドにルールが適用されます
             'name'=>'required',//入力必須
             'mail'=>'email',//メールアドレスの形式かどうか
-            'age'=>'numeric|between:0,150',//numericは数値かどうか、betweenは0〜150の間か
+            'age'=>'numeric|hello',//numericは数値かどうか、betweenは0〜150の間か
         ];
     }
     
@@ -48,7 +48,7 @@ class HelloRequest extends FormRequest
         'name.required'=>'名前は必ず入力してください',
         'mail.email'=>'メールアドレスが必要です',
         'age.numeric'=>'年齢を整数で記入してください',
-        'age.between'=>'年齢は0〜150の間で入力してください',
+        'age.hello'=>'Hello! 入力は偶数のみ受け付けます',
         ];
     }
 }
