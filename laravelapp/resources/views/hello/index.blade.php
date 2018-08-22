@@ -16,18 +16,10 @@
 @endif
 <table>
 <form action="/hello" method="post">
-	@if($errors->has('name')) {{--hasメソッドは、エラーがあるかどうかをチェック--}}
-	<tr><th>ERROR</th><td>{{$errors->first('name')}}</td></tr>{{--firstメソッドは、指定した項目の最初のエラーメッセージを取得--}}
+	@if($errors->has('msg')) {{--hasメソッドは、エラーがあるかどうかをチェック--}}
+	<tr><th>ERROR</th><td>{{$errors->first('msg')}}</td></tr>{{--firstメソッドは、指定した項目の最初のエラーメッセージを取得--}}
 	@endif
-	<tr><th>name:</th><td><input type="text" name="name" value="{{old('name')}}"></td></tr>
-		@if($errors->has('mail'))
-	<tr><th>ERROR</th><td>{{$errors->first('mail')}}</td></tr>
-	@endif
-	<tr><th>mail:</th><td><input type="text" name="mail" value="{{old('mail')}}"></td></tr>	
-		@if($errors->has('age'))
-	<tr><th>ERROR</th><td>{{$errors->first('age')}}</td></tr>
-	@endif
-	<tr><th>age:</th><td><input type="text" name="age" value="{{old('age')}}"></td></tr>
+	<tr><th>Message:</th><td><input type="text" name="msg" value="{{old('msg')}}"></td></tr>
 	<tr><th>name:</th><td><input type="submit" value="send"></td></tr>
 </form>
 </table>
