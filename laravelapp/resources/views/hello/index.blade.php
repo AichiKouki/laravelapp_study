@@ -16,7 +16,6 @@
 @endif
 <table>
 <form action="/hello" method="post">
-	{{csrf_field()}}
 	@if($errors->has('name')) {{--hasメソッドは、エラーがあるかどうかをチェック--}}
 	<tr><th>ERROR</th><td>{{$errors->first('name')}}</td></tr>{{--firstメソッドは、指定した項目の最初のエラーメッセージを取得--}}
 	@endif
