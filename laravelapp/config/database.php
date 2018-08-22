@@ -12,8 +12,8 @@ return [
     | you may use many connections at once using the Database library.
     |
     */
-
-    'default' => env('DB_CONNECTION', 'mysql'),
+//envの第2引数が、実際に使用されるデータベースの設定(sqlite、mysql、pgsql、sqlsrv)
+    'default' => env('DB_CONNECTION', 'sqlite'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,28 +30,29 @@ return [
     | choice installed on your machine before you begin development.
     |
     */
-
+    
+//それぞれのデータベースの設定
     'connections' => [
 
         'sqlite' => [
-            'driver' => 'sqlite',
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
-            'prefix' => '',
+            'driver' => 'sqlite', //ドライバー名をsqliteとする
+            'database' => env('DB_DATABASE', database_path('database.sqlite')),//DBの名前
+            'prefix' => '',//プレフィクスです。データベースの名前の前に付ける文字列の指定
         ],
 
         'mysql' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
+            'driver' => 'mysql',//ドライバー名
+            'host' => env('DB_HOST', '127.0.0.1'),//データベースサーバーのホスト(IP or ドメイン)
+            'port' => env('DB_PORT', '3306'),//使用ポート(このポート番号はデフォルト)
+            'database' => env('DB_DATABASE', 'forge'),//使用するデータベース名
+            'username' => env('DB_USERNAME', 'forge'),//DBにアクセスする際のユーザー名
+            'password' => env('DB_PASSWORD', ''),//DBにアクセスする際のパスワード
+            'unix_socket' => env('DB_SOCKET', ''),//使用するソケットファイルを指定
+            'charset' => 'utf8mb4',//キャラクタエンコーディングの指定
+            'collation' => 'utf8mb4_unicode_ci',//キャラクタエンコーディング
+            'prefix' => '',//データベースのプレフィクス
+            'strict' => true,//ストリクトモードのON/OFF指定
+            'engine' => null,//使用するストレージエンジンの指定
         ],
 
         'pgsql' => [

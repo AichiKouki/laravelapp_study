@@ -41,5 +41,6 @@ class HelloController extends Controller
         $response=new Response(view('hello.index',['msg'=>$msg.'をクッキーに保存しました']));
         $response->cookie('msg',$msg,100);
         return $response;
+        //return view('hello.index',['msg'=>$msg.'をクッキーに保存しました']);//これでもオッケー
     }
 }
