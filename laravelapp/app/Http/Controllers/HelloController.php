@@ -10,6 +10,8 @@ use App\Http\Requests\HelloRequest;//フォームリクエスト機能を使う�
 
 use Validator;//バリデータを作成するため
 
+use Illuminate\Support\Facades\DB;//データベースアクセス昨日のDBクラスを利用するため
+
 class HelloController extends Controller
 {
 //コントローラからBladeテンプレートを使う
@@ -20,13 +22,8 @@ class HelloController extends Controller
     *viewメソッドの第一引数は、フォルダ名.ファイル名。第二引数はtemplateに渡す値となる連想配列
     */
     public function index(Request $request){//helloにアクセスした時のアクション  
-    if($request->hasCookie('msg')){//キーがmsgのクッキーがあったら処理
-        //requestオブジェクトのcookieメソッドを使ってクッキーの値を取得
-        $msg='Cookie:'.$request->cookie('msg');
-    }else{
-        $msg='クッキーはありません';
-    }
-    	return view('hello.index',['msg'=>$msg]);
+        $items=DB::select('select * from people');//レコードの値をオブジェクトにまとめた配列
+    	return view('hello.index',['items'=>$items]);
     }    
     
     //ここのコントローラーに来る前に、フォームの内部でフォームの内容をチェックしてある。

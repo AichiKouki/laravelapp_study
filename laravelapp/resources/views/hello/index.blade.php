@@ -9,20 +9,16 @@
 @endsection
 
 @section('content')
-<p>{{$msg}}</p>
-{{--$errorはバリデーションで発生したエラーメッセージをまとめて管理するオブジェクト--}}
-@if(count($errors)>0) {{--$errorはバリデーションの機能によって組み込まれている--}}
-<p>入力に問題があります。再入力してください</p>
-@endif
 <table>
-<form action="/hello" method="post">
-	@if($errors->has('msg')) {{--hasメソッドは、エラーがあるかどうかをチェック--}}
-	<tr><th>ERROR</th><td>{{$errors->first('msg')}}</td></tr>{{--firstメソッドは、指定した項目の最初のエラーメッセージを取得--}}
-	@endif
-	<tr><th>Message:</th><td><input type="text" name="msg" value="{{old('msg')}}"></td></tr>
-	<tr><th>name:</th><td><input type="submit" value="send"></td></tr>
-</form>
-</table>
+<tr><th>Name</th><th>Mail</th><th>Age</th><tr>
+{{--データベースから取得したい値を順に取り出しを--}}
+		@foreach($items as $item)
+			<tr>
+				<td>{{$item->name}}</td>
+				<td>{{$item->mail}}</td>
+				<td>{{$item->age}}</td>
+			</tr>
+			@endforeach
 @endsection
 
 @section('footer')
