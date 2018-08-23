@@ -22,28 +22,59 @@ class HelloController extends Controller
     *viewメソッドの第一引数は、フォルダ名.ファイル名。第二引数はtemplateに渡す値となる連想配列
     */
     public function index(Request $request){//helloにアクセスした時のアクション  
-        if(isset($request->id)){
-            $param=['id'=>$request->id];
-            //プレースホルダでパラメータの結合(:idの部分がプレースホルダで第二引数をはめ込む)
-            $items=DB::select('select * from people where id=:id',$param);//レコードの値をオブジェクトにまとめた配列
-        }else{
-            $items=DB::select('select * from people');
-        }
-    	return view('hello.index',['items'=>$items]);
-    }    
-    
+            $items=DB::select('select * from people');//レコードの値をオブジェクトにまとめた配列
+    	    return view('hello.index',['items'=>$items]);
+    }        
     //ここのコントローラーに来る前に、フォームの内部でフォームの内容をチェックしてある。
     //だから、HelloRequestに設定してる。
     public function post(Request $request){
-        $validate_rule=[
-            'msg'=>'required',
-        ];
-        //バリデーション
-        $this->validate($request,$validate_rule);
-        $msg=$request->msg;//nameがmsgのフォームの値を取り出す
-        $response=new Response(view('hello.index',['msg'=>$msg.'をクッキーに保存しました']));
-        $response->cookie('msg',$msg,100);
-        return $response;
-        //return view('hello.index',['msg'=>$msg.'をクッキーに保存しました']);//これでもオッケー
+            $items=DB::select('select * from people');//レコードの値をオブジェクトにまとめた配列
+            return view('hello.index',['items'=>$items]);
     }
+    //hello/addにアクセスしたら
+    public function add(Request $request){
+        return view('hello.add');
+    }
+    
+    //インサート文でレコード作成
+    public function create(Request $request){
+        $param=[
+            'name'=>$request->name,
+            'mail'=>$request->mail,
+            'age'=>$request->age,
+        ];
+        //プレースホルダでパラメータ結合
+        DB::insert('insert into people (name,mail,age) values (:name,:mail,:age)',$param);
+        return redirect('/hello');
+    }
+    //更新ページにアクセスした際
+    public function edit(Request $request){
+        return view('hello.edit');
+    }
+    
+    //更新ページで送信ボタンが押されたら
+    public function update(Request $request){
+        $param=[
+            'id'=>$request->id,
+            'name'=>$request->name,
+            'mail'=>$request->mail,
+            'age'=>$request->age,
+        ];
+        DB::update('update people set name=:name,mail=:mail,age=:age where id=:id',$param);
+        return redirect('/hello');
+    }
+    
+    //レコード削除 
+    public function del(Request $request){
+        $param=['id'=>$request->id];
+        $item=DB::select('select * from people where id= :id',$param);
+        return view('hello.del',['form'=>$item[0]]);
+    }
+    
+    public function remove(Request $request){
+        $param=['id'=>$request->id];
+        DB::delete('delete from people where id= :id',$param);
+        return redirect('/hello');
+    }
+    
 }
