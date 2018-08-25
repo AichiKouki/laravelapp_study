@@ -13,10 +13,12 @@
 @if($items !=null)
 	@foreach($items as $item)
 	<table width="400px">
-	<tr><th width="50px">ID:</th></tr>
+	<tr>
+	<th width="50px">ID:</th>
 	<td width="50px">{{$item->id}}</td>
-	<tr><th width="50px">Name:</th></tr>
-	<td width="50px">{{$item->name}}</td>	
+	<th width="50px">Name:</th>
+	<td>{{$item->name}}</td>	
+	</tr>
 	</table>
 	@endforeach
 @endif
