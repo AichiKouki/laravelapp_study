@@ -17,7 +17,7 @@
 	<th width="50px">ID:</th>
 	<td width="50px">{{$item->id}}</td>
 	<th width="50px">Name:</th>
-	<td>{{$item->name}}</td>	
+	<td>{{$item->name}}</td>
 	</tr>
 	</table>
 	@endforeach
