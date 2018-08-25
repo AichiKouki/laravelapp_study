@@ -9,14 +9,17 @@
 @endsection
 
 @section('content')
-<table>
-{{--データベースから取得したい値を順に取り出しを--}}
-	<tr><td>{{$item->id}}</td></tr>
-	<tr><td>{{$item->name}}</td></tr>
-	<tr><td>{{$item->mail}}</td></tr>
-	<tr><td>{{$item->age}}</td></tr>
-	</tr>
-</table>
+{{--データベースから取得したい値を順に取り出しを行う--}}
+@if($items !=null)
+	@foreach($items as $item)
+	<table width="400px">
+	<tr><th width="50px">ID:</th></tr>
+	<td width="50px">{{$item->id}}</td>
+	<tr><th width="50px">Name:</th></tr>
+	<td width="50px">{{$item->name}}</td>	
+	</table>
+	@endforeach
+@endif
 @endsection
 
 @section('footer')
