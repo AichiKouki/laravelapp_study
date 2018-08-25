@@ -23,7 +23,7 @@ class HelloController extends Controller
     */
     public function index(Request $request){//helloにアクセスした時のアクション  
             $items=DB::table('people')
-            ->limit(2)  //レコード10個目から取得
+            ->limit(2)  //何個から取得するか
             ->offset(2)//取得したいレコードの個数
             ->get(); 
     	    return view('hello.index',['items'=>$items]);
