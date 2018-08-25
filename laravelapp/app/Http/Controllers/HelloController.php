@@ -23,7 +23,8 @@ class HelloController extends Controller
     */
     public function index(Request $request){//helloにアクセスした時のアクション  
             //$items=DB::select('select * from people');//レコードの値をオブジェクトにまとめた配列
-            $items=DB::table('people')->get();//getメソッドはselect文に相当する
+            //$items=DB::table('people')->get();//getメソッドはselect文に相当する
+            $items=DB::table('people')->orderBy('age','asc')->get();//年齢で昇順に並び替え
     	    return view('hello.index',['items'=>$items]);
     }        
     //ここのコントローラーに来る前に、フォームの内部でフォームの内容をチェックしてある。
