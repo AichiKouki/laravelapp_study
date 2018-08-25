@@ -22,7 +22,8 @@ class HelloController extends Controller
     *viewメソッドの第一引数は、フォルダ名.ファイル名。第二引数はtemplateに渡す値となる連想配列
     */
     public function index(Request $request){//helloにアクセスした時のアクション  
-            $items=DB::select('select * from people');//レコードの値をオブジェクトにまとめた配列
+            //$items=DB::select('select * from people');//レコードの値をオブジェクトにまとめた配列
+            $items=DB::table('people')->get();//getメソッドはselect文に相当する
     	    return view('hello.index',['items'=>$items]);
     }        
     //ここのコントローラーに来る前に、フォームの内部でフォームの内容をチェックしてある。
@@ -75,6 +76,12 @@ class HelloController extends Controller
         $param=['id'=>$request->id];
         DB::delete('delete from people where id= :id',$param);
         return redirect('/hello');
+    }
+    
+    public function show(Request $request){
+        $id=$request->id;
+        $item=DB::table('people')->where('id',$id)->first();
+        return view('hello.show',['item'=>$item]);
     }
     
 }
