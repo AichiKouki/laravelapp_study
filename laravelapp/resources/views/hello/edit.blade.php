@@ -12,7 +12,7 @@
 <table>
 <form action="/hello/edit" method="post">
 {{csrf_field()}}
-<tr><th>id:</th><td><input type="number" name="id"></td></tr>
+<tr><th>id:</th><td>{{$form->id}}</td><input type="hidden" name="id" value="{{$form->id}}"></tr>
 <tr><th>name:</th><td><input type="text" name="name"></td></tr>
 <tr><th>mail:</th><td><input type="text" name="mail"></td></tr>
 <tr><th>age:</th><td><input type="text" name="age"></td></tr>
