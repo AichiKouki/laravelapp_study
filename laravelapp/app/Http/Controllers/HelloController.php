@@ -22,10 +22,7 @@ class HelloController extends Controller
     *viewメソッドの第一引数は、フォルダ名.ファイル名。第二引数はtemplateに渡す値となる連想配列
     */
     public function index(Request $request){//helloにアクセスした時のアクション  
-            $items=DB::table('people')
-            ->limit(2)  //何個から取得するか
-            ->offset(2)//取得したいレコードの個数
-            ->get(); 
+            $items=DB::table('people')->get(); 
     	    return view('hello.index',['items'=>$items]);
     }        
     //ここのコントローラーに来る前に、フォームの内部でフォームの内容をチェックしてある。
@@ -41,13 +38,15 @@ class HelloController extends Controller
     
     //インサート文でレコード作成
     public function create(Request $request){
+        //それぞれinputフィールドのnameから値を取得してそれを連想配列にする
         $param=[
             'name'=>$request->name,
             'mail'=>$request->mail,
             'age'=>$request->age,
         ];
         //プレースホルダでパラメータ結合
-        DB::insert('insert into people (name,mail,age) values (:name,:mail,:age)',$param);
+        //DB::insert('insert into people (name,mail,age) values (:name,:mail,:age)',$param);
+        DB::table('people')->insert($param);
         return redirect('/hello');
     }
     //更新ページにアクセスした際
