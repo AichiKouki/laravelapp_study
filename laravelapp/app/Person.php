@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Builder;
 
+use App\Scopes\ScopePerson;
+
 /*
 *Laravelではテーブル名は複数形、モデルは単数形という命名規則になっている。
 *モデルクラスのインスタンスだから、例えばクラスにプロパティやメソッドを追加することで独自に機能を拡張することができる。
@@ -46,9 +48,6 @@ class Person extends Model
     protected static function boot(){//bootという名前が決まっているメソッド
     	parent::boot();//初期化処理
     	//addGlobalScopeは、グローバルスコープを追加するためのメソッド
-    	//Builderクラスは、SQLクエリ文を生成するための機能が提供されてる
-    	static::addGlobalScope('age',function(Builder $builder){
-    			$builder->where('age','>',20);
-    		});
+    	static::addGlobalScope(new ScopePerson);//ScopePersonがグローバルスコープとして追加
     }
 }
