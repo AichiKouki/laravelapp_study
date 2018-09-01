@@ -20,4 +20,18 @@ class Person extends Model
     public function scopeNameEqual($query,$str){
     	return $query->where('name',$str);//この条件で実行した結果を返す
     }
+    
+    /*
+    *スコープ。
+    *「〜以上、〜以下」の条件をあらかじめ設定
+    */
+    //ageの値が引数の値以上のレコードを取得
+    public function scopeAgeGreaterThan($query,$n){
+    	return $query->where('age','>=',$n);
+    }
+    
+    //ageの値が引数の値以下のレコードを取得
+    public function scopeAgeLessThan($query,$n){
+    	return $query->where('age','<=',$n);//ageの値が引数の値以下のレコードを取得
+    }    
 }
