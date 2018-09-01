@@ -17,7 +17,7 @@
 </form>
 @if(isset($item))
 <table>
-<tr><th>ID</th><th>Name</th><th>Mail</th><th>Age</th><tr>
+<tr><th>ID</th></th><tr>
 	<td>{{$item->getData()}}</td>
 </table>
 @endif
