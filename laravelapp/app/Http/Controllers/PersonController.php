@@ -34,13 +34,26 @@ class PersonController extends Controller
     public function add(Request $request){
         return view('person.add');
     }
-    
     public function create(Request $request){
         $this->validate($request,Person::$rules);//モデルの中のルールに基づいてチェック
         $person = new Person;//バリデーションを通過したら、いよいよ保存作業
         $form = $request->all();//フォームの値全て取得
         unset($form['__token']);//unsetで、csrf用の非表示フィールドはいらないので削除
         $person->fill($form)->save();//fillメソッドでフォームの値を全てのモデルの個々のプロパティにまとめて代入される。saveメソッドでデータベースに保存
+        return redirect('/person');
+    }
+    
+    //モデルからデータの更新処理を行う
+    public function edit(Request $request){
+        $person = Person::find($request->id);
+        return view('person.edit',['form'=>$person]);
+    }
+    public function update(Request $request){
+        $this->validate($request,Person::$rules);//バリデーション
+        $person = Person::find($request->id);//idに基づいたレコード取得
+        $form = $request->all();//フォームで送信されたデータ取得
+        unset($form['__token']);//csrfの非表示フィールドは削除
+        $person->fill($form)->save();//モデルの各プロパティに代入
         return redirect('/person');
     }
 }
