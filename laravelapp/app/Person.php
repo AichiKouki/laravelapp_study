@@ -14,6 +14,15 @@ use App\Scopes\ScopePerson;
 */
 class Person extends Model
 {
+    //モデルを利用してレコードを追加するための処理
+    protected $guarded = array('id');//idを、値を用意しておかない項目として設定
+    //バリデーションのルールをまとめた
+    public static $rules = array(
+        'name' => 'required',
+        'mail' => 'email',
+        'age' => 'integer|min:0|max:150'
+    );
+    
     //id、name、ageを文字列にして返します
     public function getData(){
     	return $this->id.':'.$this->name.'('.$this->age.')';
