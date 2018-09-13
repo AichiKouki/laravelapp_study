@@ -56,4 +56,13 @@ class PersonController extends Controller
         $person->fill($form)->save();//モデルの各プロパティに代入
         return redirect('/person');
     }
+    //モデルからレコードの削除処理を行う
+    public function delete(Request $request){
+        $person = Person::find($request->id);//idに基づいてモデルからレコード取得
+        return view('person.del',['form'=>$person]);
+    }
+    public function remove(Request $request){
+        Person::find($request->id)->delete();
+        return redirect('/person');
+    }
 }
