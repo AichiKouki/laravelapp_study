@@ -20,8 +20,12 @@ class PersonController extends Controller
   //トップページを描画するアクション。DBのPersonテーブルのデータを全て取得する。
     public function index(Request $request){
       //これだけで、全レコードを取得できる
-    	$items = Person::all();//取得されたレコードは、Illuminate\Database\Eqoquant名前空間のCollectionクラスのインスタンスとして得られます
-    	return view('person.index',['items'=>$items]);
+    	//$items = Person::all();//取得されたレコードは、Illuminate\Database\Eqoquant名前空間のCollectionクラスのインスタンスとして得られます
+      $hasItems = Person::has('boards')->get();
+      $noItems = Person::doesntHave('boards')->get();
+      $param = ['hasItems' => $hasItems,'noItems' => $noItems];
+    	//return view('person.index',['items'=>$param]);
+      return view('person.index',$param);
     }
 
     //IDによる検索するページを描画するアクション
@@ -49,7 +53,7 @@ class PersonController extends Controller
         $person = new Person;//バリデーションを通過したら、いよいよ保存作業
         $form = $request->all();//フォームの値全て取得
         unset($form['__token']);//unsetで、csrf用の非表示フィールドはいらないので削除
-        $person->fill($form)->save();//fillメソッドでフォームの値を全てのモデルの個々のプロパティにまとめて代入される。saveメソッドでデータベースに保存
+        $person->fill($form)->save();//fillメソッドでフォームの値を全てのモデルの個々のプロパティにまとめて代入される。saveメソッドでインスタンスを保存
         return redirect('/person');
     }
 
@@ -73,6 +77,7 @@ class PersonController extends Controller
         return view('person.del',['form'=>$person]);
     }
     public function remove(Request $request){
+       //idによる検索が可能なfind()を使ってレコードを取得して、そのレコードに対してdelte()を呼び出すだけ
         Person::find($request->id)->delete();
         return redirect('/person');
     }

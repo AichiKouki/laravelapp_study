@@ -69,4 +69,17 @@ class Person extends Model
       //app/Scocpesフォルダの中にある。この中のSocpePerson.phpの中に書いてるメソッドの内容全てが反映される。
     	static::addGlobalScope(new ScopePerson);//ScopePersonがグローバルスコープとして追加
     }
+
+    //モデルのリレーションのための処理
+    //has One結合では、主テーブル側から、関連従テーブルの一つのレコードを結びつけて取り出せるようにする。
+    //メソッド名はリレーションで関連づけるモデル名(ただし、1対1で一つしか取り出せないので、単数形の名前にしておく)
+    //Person関連のブレードの中でも「$item->boards」みたいな感じでboardsテーブルのデータが使えるようになる。
+    public function board(){
+      return $this->hasOne('App\Board');//has Oneで関連づけられるモデルを指定
+    }
+
+    //has Many結合 (has Oneとは違って、2つ以上のテーブルと関連づけを行うことが可能)
+    public function boards(){//複数のレコードと関連づけられるので、メソッド名は複数形にした。
+      return $this->hasMany('App\Board');
+    }
 }
