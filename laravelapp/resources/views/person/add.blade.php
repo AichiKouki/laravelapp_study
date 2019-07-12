@@ -13,7 +13,7 @@
 	@if(count($errors)>0) {{--バリデーションのエラーがあったら--}}
 	<div>
 		<ul>
-			@foreach($errors-->all() as $error)
+			@foreach($errors->all() as $error)
 				<li>{{$error}}</li>
 			@endforeach
 		</ul>
@@ -28,8 +28,9 @@
 	<tr><th></th><td><input type="submit" value="send"></td></tr>
 	</form>
 	</table>
+	<a href="/person">戻る</a>
 	@endsection
-	
+
 	@section('footer')
 	copyright 2017 tuyano.
 	@endsection

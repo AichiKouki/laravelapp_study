@@ -6,10 +6,10 @@ use Illuminate\Support\ServiceProvider;
 
 //オリジナルのバリデータの作成のため
 use Illuminate\Validation\Validator;
-use App\Http\Validators\HelloValidator;
+use App\Http\Validators\PersonValidator;
 
 //サービスプロパイダを作成するためにServiceProviderクラスを継承
-class HelloServiceProvider extends ServiceProvider
+class PersonServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap services.
@@ -21,12 +21,12 @@ class HelloServiceProvider extends ServiceProvider
         $validator=$this->app['validator'];//バリデータは$this->app['validator']に保管されている
         //resolverというメソッドで、バリデーションの処理を行う設定ができます
         $validator->resolver(function($translator,$data,$rules,$messages){
-            //HelloValidatorクラスのインスタンスをreturnすることで、このクラスをバリデーションの処理をして設定できます
-            return new HelloValidator($translator,$data,$rules,$messages);
+            //PersonValidatorクラスのインスタンスをreturnすることで、このクラスをバリデーションの処理をして設定できます
+            return new PersonValidator($translator,$data,$rules,$messages);
         });
 
         //extendメソッドを使って、フォームだけカスタマイズしたい！みたいなちょっとしたものなら、もっと簡単にルールが作れる
-        $validator->extend('hello_extend',function($attribute,$value,$parameters,$validator){
+        $validator->extend('person_extend',function($attribute,$value,$parameters,$validator){
             return $value<1000;
             });
     }

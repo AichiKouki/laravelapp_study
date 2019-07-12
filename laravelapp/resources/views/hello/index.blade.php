@@ -10,17 +10,20 @@
 
 @section('content')
 <table>
-<tr><th>ID</th><th>Name</th><th>Mail</th><th>Age</th><tr>
+<tr><th>ID</th><th>Name</th><th>Mail</th><th>Age</th><th>最終更新日時</th><th>削除ボタン</th><tr>
 {{--データベースから取得したい値を順に取り出しを--}}
 		@foreach($items as $item)
 			<tr>
-				<td>{{$item->id}}</td>
+				<td><a href="/hello/edit?id={{$item->id}}">{{$item->id}}</a></td>
 				<td>{{$item->name}}</td>
 				<td>{{$item->mail}}</td>
 				<td>{{$item->age}}</td>
+				<td>{{$item->updated_at}}</td>
+				<td><a href="/hello/del?id={{$item->id}}">削除</a></td>
 			</tr>
 			@endforeach
 </table>
+<a href="/hello/add">ユーザー新規作成</a>
 @endsection
 
 @section('footer')
@@ -51,4 +54,4 @@ h1{
 
 </ol>
 </body>
-</html> 
+</html>

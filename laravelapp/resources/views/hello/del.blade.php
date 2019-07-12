@@ -17,8 +17,10 @@
 <tr><th>name:</th><td>{{$form->name}}</td></tr>
 <tr><th>name:</th><td>{{$form->mail}}</td></tr>
 <tr><th>name:</th><td>{{$form->age}}</td></tr>
-<tr><th>削除ボタン</th><td><input type="submit" value="send"></td></tr>
+<tr><th>削除ボタン</th><td><input type="submit" value="実行"></td></tr>
 </table>
+
+<a href="/hello">戻る</a>
 @endsection
 
 @section('footer')

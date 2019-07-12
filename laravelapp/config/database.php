@@ -30,7 +30,7 @@ return [
     | choice installed on your machine before you begin development.
     |
     */
-    
+
 //それぞれのデータベースの設定
     'connections' => [
 

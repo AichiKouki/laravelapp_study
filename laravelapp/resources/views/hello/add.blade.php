@@ -17,6 +17,8 @@
 <tr><th>age:</th><td><input type="text" name="age"></td></tr>
 <tr><th></th><td><input type="submit" value="send"></td></tr>
 </table>
+
+<a href="/hello">戻る</a>
 @endsection
 
 @section('footer')

@@ -43,18 +43,20 @@ Route::get('request_response','RequestResponseController@index');
 //Route::get()->middleware()->middleware〜〜
 //Route::get('hello','HelloController@index')->middleware(HelloMiddleware::class);
 //Route::get('hello','HelloController@index')->middleware('hello');
+
+//インデックスページ(データベースに登録したデータ一覧を表示)
 Route::get('hello','HelloController@index');
 Route::post('hello','HelloController@post');
-
+//新規作成ページ
 Route::get('hello/add','HelloController@add');
 Route::post('hello/add','HelloController@create');
-
+//更新ページ(/hello/edit?id=1)のようにアクセスする
 Route::get('hello/edit','HelloController@edit');
 Route::post('hello/edit','HelloController@update');
-
+//削除ページ
 Route::get('hello/del','HelloController@del');
 Route::post('hello/del','HelloController@remove');
-
+//詳細ページ
 Route::get('hello/show','HelloController@show');
 
 Route::get('person','PersonController@index');

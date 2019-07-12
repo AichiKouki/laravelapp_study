@@ -6,6 +6,9 @@ use App\Person;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests\PersonRequest;
+use App\Http\Validator\PersonValidator;
+
 class PersonController extends Controller
 {
 	/*
@@ -13,28 +16,35 @@ class PersonController extends Controller
     一般的なコレクションと同様、foreachとかで取得可能
     一つ一つのレコードは全てPersonクラスのインスタンスとしてまとめられている
 	*/
+
+  //トップページを描画するアクション。DBのPersonテーブルのデータを全て取得する。
     public function index(Request $request){
-    	$items = Person::all();//これだけで、全レコードを取得できる
+      //これだけで、全レコードを取得できる
+    	$items = Person::all();//取得されたレコードは、Illuminate\Database\Eqoquant名前空間のCollectionクラスのインスタンスとして得られます
     	return view('person.index',['items'=>$items]);
     }
-    
+
+    //IDによる検索するページを描画するアクション
     public function find(Request $request){
     	return view('person.find',['input'=>'']);
     }
-    
+    //IDによる検索処理を行うアクション
     public function search(Request $request){
     	$min = $request->input*1;
     	$max = $min+10;
-    	$item = Person::AgeGreaterThan($min)->AgeLessThan($max)->first();
+    	$item = Person::AgeGreaterThan($min)->AgeLessThan($max)->first();//where::where()でもいいが、どうせならスコープを使った検索を行う
     	$param = ['input' => $request->input , 'item' => $item];
     	return view('person.find',$param);
     }
-    
-    //モデルからレコード作成処理
+
+    //新規作成ページの描画のみ
     public function add(Request $request){
         return view('person.add');
     }
-    public function create(Request $request){
+
+    //実際に追加処理を行うアクション
+    public function create(PersonRequest $request){
+      echo "ここまで実行";
         $this->validate($request,Person::$rules);//モデルの中のルールに基づいてチェック
         $person = new Person;//バリデーションを通過したら、いよいよ保存作業
         $form = $request->all();//フォームの値全て取得
@@ -42,12 +52,13 @@ class PersonController extends Controller
         $person->fill($form)->save();//fillメソッドでフォームの値を全てのモデルの個々のプロパティにまとめて代入される。saveメソッドでデータベースに保存
         return redirect('/person');
     }
-    
-    //モデルからデータの更新処理を行う
+
+    //更新処理をするページを描画するのみのアクション
     public function edit(Request $request){
         $person = Person::find($request->id);
         return view('person.edit',['form'=>$person]);
     }
+    //モデルからデータの更新処理を行う
     public function update(Request $request){
         $this->validate($request,Person::$rules);//バリデーション
         $person = Person::find($request->id);//idに基づいたレコード取得

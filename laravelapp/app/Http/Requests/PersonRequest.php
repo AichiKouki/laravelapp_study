@@ -1,0 +1,57 @@
+<?php
+//フォームリクエスト
+namespace App\Http\Requests;
+//FormRequestはRequestを継承して作られていて、リクエストの機能をベースにして更にバリデーションなどのフォームの処理に関する機能が追加されている
+use Illuminate\Foundation\Http\FormRequest;
+
+class PersonRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *このフォームリスエストを利用するアクションで、フォームリクエストの利用が許可されているかどうかを示すものです。戻り値としてtrueを返せば許可され、falseを返すと不許可になり、HttpExceptionという例外が発生してフォーム処理が行えなくなります
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        //$this->pathでアクセスしたパスをチェックしている。パスがpersonだったらtrue。ワイルドカードは反応しない
+        if($this->path() == 'person/add' || $this->path() == 'person/edit' || $this->path() == 'person/find'){//hello以外のパスでは利用できない
+            return true;
+        }else{
+        return false;
+        }
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *適用されているバリデーションの検証ルールを設定します。これは、先にコントローラーでvalidateメソッドを呼び出す際に第二引数に指定した、検証ルールの配列と同じものを用意し、returnします。ここでreturnされた検証ルールを元に、FormRequestでバリデーションチェックが実行されます
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            //これで、name、mail、ageの各フィールドにルールが適用されます
+            'name'=>'required',//入力必須
+            'mail'=>'required|email',//メールアドレスの形式かどうか
+            'age'=>'required|numeric|max:100|evenNumber',//numericは数値かどうか、evenNumberはオリジナルバリデータ
+        ];
+    }
+
+        /*
+    *エラーメッセージをカスタマイズ。
+    *FormRequestの「messages」というメソッドをオーバーライドして使う
+    *FormRequestのバリデーション機能がエラーメッセージを必要とした際にここが呼ばれる
+    */
+    public function messages()
+    {
+        return [
+        'name.required'=>'氏名は必ず入力してください',
+        'mail.required'=>'メールアドレスが必要です',
+        'mail.email'=>'メールアドレスを正しい形式で入力してください',
+        'age.required'=>'年齢が必要です',
+        'age.numeric'=>'年齢を整数で記入してください',
+        'age.max'=>'年齢は100歳までの値で入力してください',
+        'age.even_number'=>'年齢を偶数にしてください',
+        ];
+    }
+}

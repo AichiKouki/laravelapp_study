@@ -12,6 +12,7 @@
 @section('content')
 <form action="/person/find" method="post">
 {{ csrf_field() }}
+入力された数値から+10の数値の範囲の年齢の最初の一人のユーザーを検索<br>
 <input type="text" name="input" value="{{$input}}">
 <input type="submit" value="find">
 </form>
@@ -21,6 +22,7 @@
 	<td>{{$item->getData()}}</td>
 </table>
 @endif
+<a href="/person">戻る</a>
 @endsection
 
 @section('footer')
@@ -51,4 +53,4 @@ h1{
 
 </ol>
 </body>
-</html> 
+</html>

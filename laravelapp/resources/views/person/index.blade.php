@@ -10,14 +10,22 @@
 
 @section('content')
 <table>
-<tr><th>ID</th><th>Name</th><th>Mail</th><th>Age</th><tr>
-{{--データベースから取得したい値を順に取り出しを--}}
+<tr><th>ID</th><th>Name</th><th>Mail</th><th>Age</th><th>最終更新日時</th><th>削除</th><tr>
+{{--データベースから取得したい値を順に取り出し。ORMにより変換されて取得したレコードはCollection型のものなので、順番に取り出す--}}
 		@foreach($items as $item)
 			<tr>
-				<td>{{$item->getData()}}</td>
+				<td><a href="/person/edit?id={{$item->id}}">{{$item->getData()}}</a></td> {{--getDataはPerson.phpで作った関数。nameの値とageの値を文字列連結して「愛知(22)」みたいな値を取得してる--}}
+				<td>{{$item->name}}</td>
+				<td>{{$item->mail}}</td>
+				<td>{{$item->age}}</td>
+				<td>{{$item->updated_at}}</td>
+				<td><a href="/person/del?id={{$item->id}}">削除</a></td>
 			</tr>
 			@endforeach
 </table>
+<a href="/person/add">ユーザ新規作成</a>
+<br>
+<a href="/person/find">ユーザ検索</a>
 @endsection
 
 @section('footer')
@@ -48,4 +56,4 @@ h1{
 
 </ol>
 </body>
-</html> 
+</html>
