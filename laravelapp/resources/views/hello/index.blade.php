@@ -1,6 +1,13 @@
 {{--継承レイアウト--}}
 @extends('layouts.helloapp') {{--layoutsフォルダのhelloapp〜のbladeテンプレートを継承--}}
-
+<style>
+.pagination{
+	font-size: 10pt;
+}
+.pagination li{
+display:inline-block;
+}
+</style>
 @section('title','Index') {{--@yieldを使わず単純に「Index」という文字列を表示したいから--}}
 
 @section('menubar') {{--親レイアウトにmenubarのyieldはない。つまりsectionを上書きした--}}
@@ -23,6 +30,9 @@
 			</tr>
 			@endforeach
 </table>
+{{--simplePeginateの戻り値には、前後のページに移動するリンク情報が含まれており、移動はそれらを使って作成されたリンクで行うようになっている。--}}
+{{-- « Previous  Next » というリンクが自動で生成される。これで、ページングが可能となる。 --}}
+{{$items->links()}}
 <a href="/hello/add">ユーザー新規作成</a>
 @endsection
 

@@ -12,6 +12,8 @@ use Validator;//バリデータを作成するため
 
 use Illuminate\Support\Facades\DB;//データベースアクセス機能のDBクラスを利用するため
 
+use App\Person;//ペジネーションで使う
+
 class HelloController extends Controller
 {
 //コントローラからBladeテンプレートを使う
@@ -28,8 +30,14 @@ class HelloController extends Controller
     もし「index.blade.php」がなければ、indexx.phpが描画される。
     */
     public function index(Request $request){//helloにアクセスした時のアクション
-            $items=DB::table('people')->get();
-    	    return view('hello.index',['items'=>$items]); //helloフォルダのindex.phpのテンプレートを描画
+          //$items=DB::table('people')->get(); //普通にpeopleテーブルのデータを全て取得
+          //ペジネーションを使って、取得数を指定
+          //$items = DB::table('people')->simplePaginate(5);//table(テーブル名)->simplePaginate(表示数)。注意点としてはsimplePaginateメソッドは最後に呼び出す
+          $sort = $request->sort;//sort = ◯ ◯と渡されたフィールド名でレコードを並び替える
+          $items = Person::orderBy($sort,'asc');
+          $param = ['items' => $items,'sort' => $sort];
+    	    //return view('hello.index',['items'=>$items]); //helloフォルダのindex.phpのテンプレートを描画
+          return view('hello.index',$param);
     }
     //ここのコントローラーに来る前に、フォームの内部でフォームの内容をチェックしてある。
     //だから、HelloRequestに設定してる。
@@ -99,6 +107,27 @@ class HelloController extends Controller
         $items=DB::table('people')
         ->whereRaw('age>=? and age<=?',[$min,$max])->get();
         return view('hello.show',['items'=>$items]);
+    }
+
+    //rest.blade.phpを表示するだけのアクション
+    public function rest(Request $request){
+      return view('hello.rest');
+    }
+
+    //セッションの値を取得するアクション
+    public function ses_get(Request $request){
+      //セッションから「msg」という値を取り出している
+      $sesdata = $request->session()->get('msg');
+      //セッションから取り出した値を「session_data」という名前でテンプレートに渡している。
+      return view('hello.session',['session_data' => $sesdata]);
+    }
+
+    //セッションを登録するアクション
+    public function ses_put(Request $request){
+      $msg = $request->input;//inputタグのname属性がinputなので、普通に値を取り出す
+      //これで、$msgの値が「msg」という名前でセッションに保管されます。
+      $request->session()->put('msg',$msg);
+      return redirect('hello/session');
     }
 
 }

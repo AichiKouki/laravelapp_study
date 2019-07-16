@@ -15,8 +15,9 @@ return [
     |            "memcached", "redis", "array"
     |
     */
-
-    'driver' => env('SESSION_DRIVER', 'file'),
+    //第二引数をfileにすると、セッションを登録するたびにファイルとして保存される(storage/framework/sessionの中にファイルが保存される)
+    //fileならファイルが生成され、databaseならファイルではなくデータベースを利用する形になる。
+    'driver' => env('SESSION_DRIVER', 'database'),
 
     /*
     |--------------------------------------------------------------------------

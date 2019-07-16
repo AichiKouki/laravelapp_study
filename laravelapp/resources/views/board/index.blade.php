@@ -33,7 +33,7 @@ copyright 2017 tuyano.
 <!--MVCの表示の部分-->
 <html>
 <head>
-<title>Hello/Index</title>
+<title>Board/Index</title>
 <style>
 body{
 	fontsize:16pt;

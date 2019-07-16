@@ -11,7 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        $this->call(PeopleTableSeeder::class);
+        //一回やったらコメントアウトする。すでにデータが入っているのにこれを動かしたら、またテーブルに初期値が追加されてしまうので、終わったらコメントしておく
+        //$this->call(UsersTableSeeder::class);
+        //$this->call(PeopleTableSeeder::class);
+        //$this->call(RestdataTableSeeder::class);
     }
 }

@@ -31,6 +31,8 @@ class Board extends Model
     public function getData()
     {
       //ここはBoard.phpだが、上記のbelongToでPerson.phpのデータが使えるようになった。だから$this->personみたいに使うことができる。
-        return $this->id . ': ' . $this->title . ' (' . $this->person->name . ')';
+      //まだ作成したいないユーザーidを指定して送信ボタンを押すと、以下の$this->person->nameが「non Object」となる
+        return $this->id . ': ' . $this->title;
+        //return $this->id . ': ' . $this->title . ' (' . $this->person->name . ')';
     }
 }

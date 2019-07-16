@@ -21,8 +21,8 @@ class PersonController extends Controller
     public function index(Request $request){
       //これだけで、全レコードを取得できる
     	//$items = Person::all();//取得されたレコードは、Illuminate\Database\Eqoquant名前空間のCollectionクラスのインスタンスとして得られます
-      $hasItems = Person::has('boards')->get();
-      $noItems = Person::doesntHave('boards')->get();
+      $hasItems = Person::has('boards')->get();//指定のリレーションの値を持っているデータを取得
+      $noItems = Person::doesntHave('boards')->get();//指定のリレーションの値
       $param = ['hasItems' => $hasItems,'noItems' => $noItems];
     	//return view('person.index',['items'=>$param]);
       return view('person.index',$param);

@@ -79,7 +79,15 @@ Route::get('board','BoardController@index');
 Route::get('board/add','BoardController@add');
 Route::post('board/add','BoardController@create');
 
+//RESTfull(リソースコントローラーとしてコントローラーを生成したので、indexからdestroyまでこれ一つでアクセス可能となる。)
+//通常の書き方と少し異なるが、コントローラー名を指定するだけでいい。
+Route::resource('rest','RestappController');
+//rest.blade.phpを表示する
+Route::get('hello/rest','HelloController@rest');
 
+//セッションの利用
+Route::get('hello/session','HelloController@ses_get');
+Route::post('hello/session','HelloController@ses_put');
 /*
 *1
 そのアドレスにアクセスした際に表示される内容。
