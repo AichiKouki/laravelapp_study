@@ -49,7 +49,7 @@ class HelloTest extends TestCase
         $user = factory(User::class)->create();//テストを実行するたびに、factoryを使ってデータを挿入する。
         $response = $this->actingAs($user)->get('/hello');//actingAs()を使うことでユーザーデータを認証済み状態にできる。
         $response->assertStatus(200);
-
+        //ページのないアドレスにアクセスして、結果が404となるのかを確認。ページが見つからない場合は404エラーとなる。
         $response = $this->get('/no_route');
         $response->assertStatus(404);
       }
