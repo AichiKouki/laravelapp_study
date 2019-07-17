@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\DB;//データベースアクセス機能のDBク
 
 use App\Person;//ペジネーションで使う
 
+//ユーザー認証と、authで使う
+use Illuminate\Support\Facades\Auth;
+
+
 class HelloController extends Controller
 {
 //コントローラからBladeテンプレートを使う
@@ -30,14 +34,13 @@ class HelloController extends Controller
     もし「index.blade.php」がなければ、indexx.phpが描画される。
     */
     public function index(Request $request){//helloにアクセスした時のアクション
-          //$items=DB::table('people')->get(); //普通にpeopleテーブルのデータを全て取得
-          //ペジネーションを使って、取得数を指定
-          //$items = DB::table('people')->simplePaginate(5);//table(テーブル名)->simplePaginate(表示数)。注意点としてはsimplePaginateメソッドは最後に呼び出す
-          $sort = $request->sort;//sort = ◯ ◯と渡されたフィールド名でレコードを並び替える
-          $items = Person::orderBy($sort,'asc');
-          $param = ['items' => $items,'sort' => $sort];
-    	    //return view('hello.index',['items'=>$items]); //helloフォルダのindex.phpのテンプレートを描画
-          return view('hello.index',$param);
+      //Auth::userは、ログインしているユーザーのモデルインスタンス(AuthではUserというモデルクラスが用意されている)
+      $user = Auth::user();//ログインしていなければnullとなる。もしnullではなかったら「index.blade.php」でのログインユーザー名の表示が可能になる
+      $sort = $request->sort;//sort = ◯ ◯と渡されたフィールド名でレコードを並び替える
+      $items = Person::orderBy($sort,'asc')->paginate(5);
+      $param = ['items' => $items,'sort' => $sort,'user' => $user];
+    	//return view('hello.index',['items'=>$items]); //helloフォルダのindex.phpのテンプレートを描画
+      return view('hello.index',$param);
     }
     //ここのコントローラーに来る前に、フォームの内部でフォームの内容をチェックしてある。
     //だから、HelloRequestに設定してる。
@@ -128,6 +131,27 @@ class HelloController extends Controller
       //これで、$msgの値が「msg」という名前でセッションに保管されます。
       $request->session()->put('msg',$msg);
       return redirect('hello/session');
+    }
+
+    //独自のログイン処理を行う際のフォームを描画するだけのアクション
+    public function getAuth(Request $request){
+      $param = ['message' => 'ログインしてください'];
+      return view('hello.auth',$param);
+    }
+
+    //独自のログイン処理を行うためのあくしょん
+    public function postAuth(Request $request){
+      //フォームから普通にメールアドレスとパスワード取得して、if文でログイン処理行うだけ
+      $email = $request->email;
+      $password = $request->password;
+      //ログイン判定(attemptメソッドにメールアドレスとパスワードを与えるだけで、ログイン判定ができる。)
+      if(Auth::attempt(['email' => $email,'password' => $password])){
+        $msg = 'ログインしました。('.Auth::user()->name.')';
+      }else{
+        $msg = 'ログインに失敗しました。';
+      }
+
+      return view('hello.auth',['message' => $msg]);//getAuthは、ここにある連想配列を一つの変数に入れていただけで同じ。
     }
 
 }

@@ -51,6 +51,8 @@ td{
 	padding:5px 10px;
 }
 </style>
+{{--Laravelが標準で用意しているこのスタイルを使うことで、ある程度デザインされた表示を作ることができる。--}}
+<link rel="stylesheet" type="text/css" href="/css/app.css">
 </head>
 <body>
 <h1>@yield('title')</h1>
@@ -67,4 +69,4 @@ td{
 @yield('footer')
 </div>
 </body>
-</html> 
+</html>

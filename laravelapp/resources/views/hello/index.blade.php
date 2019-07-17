@@ -7,6 +7,18 @@
 .pagination li{
 display:inline-block;
 }
+tr th a:link{
+	color:white;
+}
+tr th a:visited{
+	color:white;
+}
+tr th a:hover{
+	color:white;
+}
+tr th a:active{
+	color:white;
+}
 </style>
 @section('title','Index') {{--@yieldを使わず単純に「Index」という文字列を表示したいから--}}
 
@@ -16,8 +28,13 @@ display:inline-block;
 @endsection
 
 @section('content')
+@if (Auth::check())
+<p>USER:{{$user->name . '('.$user->email.')'}}</p>
+@else
+<p>＊ログインしていません。(<a href="/login">ログイン</a> | <a href="/register">登録</a>)</p>
+@endif
 <table>
-<tr><th>ID</th><th>Name</th><th>Mail</th><th>Age</th><th>最終更新日時</th><th>削除ボタン</th><tr>
+<tr><th>ID</th><th><a href="/hello?sort=name">Name</a></th><th><a href="/hello?sort=mail">Mail</a></th><th><a href="/hello?sort=age">Age</a></th><th>最終更新日時</th><th>削除ボタン</th><tr>
 {{--データベースから取得したい値を順に取り出しを--}}
 		@foreach($items as $item)
 			<tr>
@@ -32,7 +49,7 @@ display:inline-block;
 </table>
 {{--simplePeginateの戻り値には、前後のページに移動するリンク情報が含まれており、移動はそれらを使って作成されたリンクで行うようになっている。--}}
 {{-- « Previous  Next » というリンクが自動で生成される。これで、ページングが可能となる。 --}}
-{{$items->links()}}
+{{$items->appends(['sort' => $sort])->links()}}   {{--appendsメソッドは、生成するリンクにパラメータを追加する。--}}
 <a href="/hello/add">ユーザー新規作成</a>
 @endsection
 

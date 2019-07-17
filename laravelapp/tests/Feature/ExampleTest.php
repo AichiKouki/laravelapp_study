@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ExampleTest extends TestCase
 {
+  //メソッド名は「test◯◯のようにキャメルケースであれば自由」
     /**
      * A basic test example.
      *

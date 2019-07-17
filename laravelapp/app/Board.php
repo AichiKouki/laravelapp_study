@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+
 /*
 *このクラスはモデル。モデルとは、テーブル内容を定義したクラスです。
 *Laravelではテーブル名は複数形、モデルは単数形という命名規則になっている。
@@ -32,7 +33,7 @@ class Board extends Model
     {
       //ここはBoard.phpだが、上記のbelongToでPerson.phpのデータが使えるようになった。だから$this->personみたいに使うことができる。
       //まだ作成したいないユーザーidを指定して送信ボタンを押すと、以下の$this->person->nameが「non Object」となる
-        return $this->id . ': ' . $this->title;
-        //return $this->id . ': ' . $this->title . ' (' . $this->person->name . ')';
+        //return $this->id . ': ' . $this->title;
+       return $this->id . ': ' . $this->title . ' (' . $this->person->name . ')';
     }
 }

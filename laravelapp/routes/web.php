@@ -45,7 +45,7 @@ Route::get('request_response','RequestResponseController@index');
 //Route::get('hello','HelloController@index')->middleware('hello');
 
 //インデックスページ(データベースに登録したデータ一覧を表示)
-Route::get('hello','HelloController@index');
+Route::get('hello','HelloController@index')->middleware('auth');
 Route::post('hello','HelloController@post');
 //新規作成ページ
 Route::get('hello/add','HelloController@add');
@@ -88,6 +88,11 @@ Route::get('hello/rest','HelloController@rest');
 //セッションの利用
 Route::get('hello/session','HelloController@ses_get');
 Route::post('hello/session','HelloController@ses_put');
+
+//独自ログイン処理
+Route::get('hello/auth','HelloController@getAuth');
+Route::post('hello/auth','HelloController@postAuth');
+
 /*
 *1
 そのアドレスにアクセスした際に表示される内容。
@@ -96,3 +101,7 @@ view(テンプレート名)
 要するに、このviewで引数にテンプレートを指定すると、それがレンダリングされて返され、ブラウザに表示されるという仕組みになっている。
 今回指定したwelcomeは、resources/viewの中にある
 */
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
