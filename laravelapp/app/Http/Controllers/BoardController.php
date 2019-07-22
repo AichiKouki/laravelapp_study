@@ -35,7 +35,7 @@ class BoardController extends Controller
         $person_items = DB::table('people')->where('id',$request->person_id)->first();
         if(is_null($person_items)){
         Log::debug('指定されたperson_idは存在しなかったのでDB処理せずにreturnする。');
-         return redirect('/board');    
+        return redirect('/board/add')->withErrors('入力されたperson idは存在しません');
         }
         $board = new Board;
         $form = $request->all();
