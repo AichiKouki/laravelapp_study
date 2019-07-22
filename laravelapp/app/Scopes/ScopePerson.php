@@ -16,6 +16,6 @@ class ScopePerson implements Scope
     *このメソッドでは、BuilderとModelがインスタンスとして渡される。なので、特定のモデルに縛られず、汎用的な処理ができる
     */
     public function apply(Builder $builder,Model $model){
-        $builder->where('age','>',20);
+        $builder->where('age','>',0);
     }
 }

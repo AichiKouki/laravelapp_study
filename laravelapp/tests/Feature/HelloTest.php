@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use App\User;
 use DatabaseMigrations;
+use App\Person;
 
 class HelloTest extends TestCase
 {
@@ -36,8 +37,8 @@ class HelloTest extends TestCase
       * @return void
       */
       public function testPath(){
+        //assertTrueを使ってみる。これは、引数の値がtrueかどうか。
         $this->assertTrue(true);
-
         //アクセスしたステータスを調べて、正常にアクセスできたら200番
         $response = $this->get('/');
         $response->assertStatus(200);
@@ -48,10 +49,52 @@ class HelloTest extends TestCase
         //以下で生成するユーザーデータはUsersテーブルになくてもいい。登録されていない値を設定されたUserインスタンスでもログインしてアクセスできる。
         $user = factory(User::class)->create();//テストを実行するたびに、factoryを使ってデータを挿入する。
         $response = $this->actingAs($user)->get('/hello');//actingAs()を使うことでユーザーデータを認証済み状態にできる。
-        $response->assertStatus(200);
+        //$response->assertStatus(200);
         //ページのないアドレスにアクセスして、結果が404となるのかを確認。ページが見つからない場合は404エラーとなる。
         $response = $this->get('/no_route');
         $response->assertStatus(404);
       }
+
+      /**
+       * データベースをテストする。
+       *
+       * @return void
+       */
+       public function testDB(){
+         //ダミーで利用するデータ
+         //factory-createでレコードを新たに作り保存することができる
+         //指定した値でレコードを保存させたい場合は、createの引数に連想配列で値を用意しておきます。
+         factory(User::class)->create([
+           'name' => 'AAA',
+           'mail' => 'BBB@CCC.COM',
+           'password' => 'ABCABC',
+           'age' => 123,
+         ]);
+         //レコードを多数作成したい場合は、第二引数に作成するインスタンス数を指定
+         factory(User::class,10)->create();
+
+         $this->assertDatabaseHas('users',[
+           'name' => 'AAA',
+           'mail' => 'BBB@CCC.COM',
+           'password' => 'ABCABC',
+           'age' => 123,
+         ]);
+
+         //ダミーで利用するデータ
+         factory(Person::class)->create([
+           'name' => 'XXX',
+           'mail' => 'YYY@ZZZ.COM',
+           'password' => 'ABCABC',
+           'age' => 123,
+         ]);
+         factory(Person::class)->create();
+
+         $this->assertDatabaseHas([
+           'name' => 'XXX',
+           'mail' => 'YYY@ZZZ.COM',
+           'password' => 'ABCABC',
+           'age' => 123,
+         ]);
+       }
 
 }
