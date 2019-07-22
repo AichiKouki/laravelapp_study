@@ -6,7 +6,7 @@
 
 @section('menubar') {{--親レイアウトにmenubarのyieldはない。つまりsectionを上書きした--}}
 	@parent {{--上書きはするが親にあるセクションも残して表示したいからこれではめ込む--}}
-	投稿ページ
+	投稿ページ(存在しないperson idは入力しないでください)
 @endsection
 
 @section('content')
